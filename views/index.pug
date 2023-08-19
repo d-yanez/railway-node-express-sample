@@ -1,0 +1,13 @@
+doctype html 
+html 
+    head 
+        meta(charset="utf-8")/
+        title Inventory sku 
+    body
+        div 
+            h1 Total productos: #{total} para sku: #{sku}
+        div 
+            ul
+                each r in registros
+                        li #{r.titulo}, stock: #{r.stock} en caja: #{r.caja}
+            
