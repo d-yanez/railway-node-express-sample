@@ -5,7 +5,7 @@ const {google} = require("googleapis");
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const sheets = google.sheets('v4');
 // Credenciales de autenticación. Sigue las instrucciones para obtener tus credenciales.
-const credentials = require('./credentials.json');
+//const credentials = require('./credentials.json');
 
 const app = express();
 const PORT = process.env.PORT || 2977;
@@ -22,32 +22,21 @@ const spreadsheetId = '1Ga9Mj4qpSnLy54wUv3usADexGsaNZ4fFA9zN0beoTeM';
 const range = 'test!A1';
 
 // Autenticación con las credenciales
-const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-  });
+//const auth = new google.auth.GoogleAuth({
+//    credentials,
+//    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
+//  });
 
-  async function readSheetCell(sku) {
-    const client = await auth.getClient();
-    const value = "";
-    try {
-      const response = await sheets.spreadsheets.values.get({
-        auth: client,
-        spreadsheetId,
-        range,
-      });
-  
-       value = response.data.values[0][0]; // Obtenemos el valor de la celda A1
-      console.log(`El valor de la celda es: ${value}`);
-    } catch (error) {
-      console.error('Error al leer la celda:', error);
-    }
-    return value;
-  }
+
   // read from inventory
   async function accessDocument(sku) {
+    console.log(process.env.CLIENT_EMAIL)
     const doc = new GoogleSpreadsheet('1h04Fl3ilxdDLF_0Yx2rHR_2W1RQu63pm5S_3enkexzI');
-    await doc.useServiceAccountAuth(credentials);
+    //await doc.useServiceAccountAuth(credentials);
+    await doc.useServiceAccountAuth({
+      client_email:process.env.CLIENT_EMAIL,
+      private_key:process.env.PRIVATE_KEY
+    });
     await doc.loadInfo();
 
     const sheet =   doc.sheetsByIndex[0];
@@ -81,7 +70,11 @@ const auth = new google.auth.GoogleAuth({
 
   async function accessDocumentSync(sku) {
     const doc = new GoogleSpreadsheet('1Ga9Mj4qpSnLy54wUv3usADexGsaNZ4fFA9zN0beoTeM');
-    await doc.useServiceAccountAuth(credentials);
+    //await doc.useServiceAccountAuth(credentials);
+    await doc.useServiceAccountAuth({
+      client_email:process.env.CLIENT_EMAIL,
+      private_key:process.env.PRIVATE_KEY
+    });
     await doc.loadInfo();
 
     const sheet = doc.sheetsByIndex[0];
@@ -105,9 +98,20 @@ const auth = new google.auth.GoogleAuth({
 //routes and add controllers
 
 app.get("/views",async (req,res) =>{
+  console.log(process.env.CLIENT_EMAIL);
   const doc = new GoogleSpreadsheet('1h04Fl3ilxdDLF_0Yx2rHR_2W1RQu63pm5S_3enkexzI');
-  await doc.useServiceAccountAuth(credentials);
+  //await doc.useServiceAccountAuth(credentials);
+  servicePrivateKey = process.env.PRIVATE_KEY;
+  await doc.useServiceAccountAuth({
+    client_email:process.env.CLIENT_EMAIL,
+    private_key:servicePrivateKey.replace(/\\n/g, '\n')
+  });
   await doc.loadInfo();
+
+  //{
+  //  client_email: serviceEmail,
+  //  private_key: servicePrivateKey.replace(/\\n/g, '\n'),
+  //}
 
   const sheet =   doc.sheetsByIndex[0];
   const registos = await sheet.getRows();
