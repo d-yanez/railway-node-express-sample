@@ -30,7 +30,7 @@ const range = 'test!A1';
 
   // read from inventory
   async function accessDocument(sku) {
-    console.log(process.env.CLIENT_EMAIL)
+    //console.log(process.env.CLIENT_EMAIL)
     const doc = new GoogleSpreadsheet('1h04Fl3ilxdDLF_0Yx2rHR_2W1RQu63pm5S_3enkexzI');
     //await doc.useServiceAccountAuth(credentials);
     await doc.useServiceAccountAuth({
@@ -114,6 +114,7 @@ app.get("/views",async (req,res) =>{
   //}
 
   const sheet =   doc.sheetsByIndex[0];
+  //filter in sheet by not traer todo!!!
   const registos = await sheet.getRows();
   const sku_temp = req.query.sku;
   //console.log(`sku->${sku}`)
@@ -147,6 +148,13 @@ app.get("/views",async (req,res) =>{
 
 
 });
+
+
+//Buscador por boton viewer
+
+//Resultado de busqueda
+
+
 
 app.get("/",(req,res) =>{
     res.status(200).send({msg:"Hola!!!"})
