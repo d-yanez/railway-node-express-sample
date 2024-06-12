@@ -181,7 +181,7 @@ app.get("/views",async (req,res) =>{
   const sheet =   doc.sheetsByIndex[0];
   //filter in sheet by not traer todo!!!
   const registos = await sheet.getRows();
-  console.log(registos[0].titulo);
+  console.log("titulo:",registos[0].titulo," sku:",req.query.sku);
     //registos.forEach(function (row) {
       //console.log(row.rowNumber)
      // console.log(row.value)
@@ -207,13 +207,13 @@ app.get("/views",async (req,res) =>{
                   titulo:registos[i]['titulo'],
                   stock:registos[i]['stock_total'],
                   caja:registos[i]['id_caja'],
-                  caja:registos[i]['obs1'],
+                  obs1:registos[i]['obs_a'],
                   row:i
                 });
       }
   }
 
-  console.log(total);
+  console.log("total->",total);
   res.render('../views/index',{registros:registros_temp,sku:sku_temp,total:total});
 });
 
