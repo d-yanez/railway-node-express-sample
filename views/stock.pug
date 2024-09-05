@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet", href="/styles.css")
+  body
+    h1 Consultar Stock de Productos
+    form(action="/api/consultar" method="POST")
+      label(for="sku") Ingrese SKU:
+      input(type="text" id="sku" name="sku" required)
+      button(type="submit") Consultar Stock

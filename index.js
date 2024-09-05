@@ -2,7 +2,11 @@ const express = require("express");
 const bodyParse = require("body-parser");
 const axios = require('axios');
 
+const path = require('path');
+
 const {google} = require("googleapis");
+const getSheetData = require('./controllers/googleSheets'); // Importa la función para leer Google Sheets
+
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const sheets = google.sheets('v4');
 // Credenciales de autenticación. Sigue las instrucciones para obtener tus credenciales.
@@ -15,6 +19,12 @@ app.use(bodyParse.urlencoded({extends:true}));
 app.use(bodyParse.json());
 app.set('views','./views');
 app.set('view engine','pug');
+
+// Configura el middleware para manejar datos de formularios
+app.use(express.urlencoded({ extended: true }));
+
+// Sirve archivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // ID de la hoja de Google Sheets
@@ -163,6 +173,7 @@ app.get("/update",async (req,res) =>{
 });
 
 app.get("/views",async (req,res) =>{
+  console.log("En views....");
   console.log(process.env.CLIENT_EMAIL);
   const doc = new GoogleSpreadsheet('1h04Fl3ilxdDLF_0Yx2rHR_2W1RQu63pm5S_3enkexzI');
   //await doc.useServiceAccountAuth(credentials);
@@ -310,6 +321,32 @@ app.get("/pub",async (req,res) =>{
 });
 
 
+
+//Formulario de stock
+
+app.get('/stocks', (req, res) => {
+  res.render('stock', { title: 'Consultar Stock' });
+});
+
+// API para consultar el stock
+app.post('/api/consultar', async (req, res) => {
+  const { sku } = req.body;
+
+  try {
+    const productos = await getSheetData();
+
+    const producto = productos.find(p => p.sku === sku);
+
+    if (producto) {
+      res.render('stock_result', { producto });
+    } else {
+      res.render('stock_result', { sinResultado: true, sku });
+    }
+  } catch (error) {
+    console.error('Error al consultar la hoja de Google:', error);
+    res.status(500).send('Error interno del servidor');
+  }
+});
 
 
 app.listen(PORT,() =>{

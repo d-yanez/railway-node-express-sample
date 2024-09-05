@@ -1,0 +1,124 @@
+/* Estilos base */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  label, input {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #ccc;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    font-size: 1rem;
+  }
+  
+  /* Media query para pantallas pequeñas */
+  @media (max-width: 768px) {
+    body {
+      margin: 10px;
+    }
+  
+    form {
+      margin-bottom: 15px;
+    }
+  
+    label, input, button {
+      font-size: 0.9rem;
+    }
+  
+    table, th, td {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+
+/* Cabecera de la tabla con fondo azul */
+th {
+  background-color: #007BFF;
+  color: white;
+}
+
+/* Estilo general para las celdas */
+td {
+  background-color: #fff;
+}
+
+/* Pintar la celda de stock en rojo si el stock es 0 o no hay dato */
+td.stock {
+  background-color: red;
+  color: white;
+}
+
+/* Pintar la celda de stock en verde claro si el stock es mayor a 0 */
+td.stock-verde {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+  
+    /* Hacer el botón más grande en pantallas pequeñas */
+    button {
+      width: 100%;
+      padding: 12px;
+    }
+  }
+  
+  /* Media query para pantallas muy pequeñas (móviles) */
+  @media (max-width: 480px) {
+    form {
+      margin-bottom: 10px;
+    }
+  
+    label, input, button {
+      font-size: 0.8rem;
+    }
+  
+    table, th, td {
+      font-size: 0.8rem;
+      padding: 6px;
+    }
+  
+    /* Ajustar el tamaño del botón para pantallas móviles */
+    button {
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+  }
+  

@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title= producto ? producto.nombre : 'Resultado de la Consulta'
+    link(rel="stylesheet", href="/styles.css")
+  body
+    if sinResultado
+      h1 No hay información para el SKU "#{sku}"
+    else
+      h1 Resultado de la Consulta para "#{producto.titulo}"
+      table
+        thead
+          tr
+            th Nombre del Producto
+            th SKU
+            th Stock
+            th Ubicación
+            th Observación
+        tbody
+          each item in producto.ubicaciones
+            tr
+              td= producto.titulo
+              td= producto.sku
+              td(class=(item.stock > 0 ? 'stock-verde' : 'stock'))= item.stock || 'Sin dato'
+              td= item.ubicacion
+              td= item.observacion
+    a(href="/stock") Volver a consultar otro SKU
